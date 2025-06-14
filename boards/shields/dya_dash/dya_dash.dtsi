@@ -138,6 +138,30 @@
             input-processors = <&zip_xy_scaler 1 60 &zip_xy_to_scroll_mapper>;
         };
     };
+
+    trackball_listener_l: trackball_listener_1 {
+        compatible = "zmk,input-listener";
+        device = <&peripheral_trackball>;
+        // Please define in your .keymap
+        // input-processors = <&zip_temp_layer0 TRACKBALL_L 500>;
+
+        trackball_scroller_l: scroller_1 {
+            // Please define in your .keymap
+            // layers = <SCROLL_L>;
+            input-processors = <&zip_xy_scaler 1 60 &zip_xy_to_scroll_mapper>;
+        };
+    };
+
+    split_inputs {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		peripheral_trackball: peripheral_trackball@0 {
+			compatible = "zmk,input-split";
+			reg = <0>;
+		};
+	};
+
     led_power:led_power {
         compatible = "zmk,ext-power-transient";
         control-gpios = <&gpio0 9 (GPIO_ACTIVE_LOW)>; // NFC1
