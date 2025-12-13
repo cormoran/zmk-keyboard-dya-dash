@@ -45,4 +45,5 @@
     // disable force-awake
     // force-awake;
     disable-burst-read;
+    cpi = <400>;
 };
