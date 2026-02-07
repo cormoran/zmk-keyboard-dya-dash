@@ -1,28 +1,5 @@
+# test env manifest to setup dependencies under <west topdir>
+# should be initialized with cd repo && west init -l . --mf config/west.yml
 manifest:
-  version: 1.2
-  defaults:
-    remote: cormoran
-    revision: main
-  remotes:
-    - name: cormoran
-      url-base: https://github.com/cormoran
-  projects:
-    - name: zmk
-      import:
-        file: app/west.yml
-        path-prefix: external
-      clone-depth: 1
-    - name: zmk-pmw3610-driver
-      path: external/zmk-pmw3610-driver
-      clone-depth: 1
-    - name: zmk-feature-default-layer
-      path: external/zmk-feature-default-layer
-      clone-depth: 1
-    - name: zmk-driver-animation
-      path: external/zmk-driver-animation
-      clone-depth: 1
-    - name: zmk-driver-ext-power-transient
-      path: external/zmk-driver-ext-power-transient
-      clone-depth: 1
   self:
-    path: config
+    import: config/west-dependency.yml

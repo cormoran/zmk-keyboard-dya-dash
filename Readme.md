@@ -26,11 +26,23 @@ The firmware will be available in "Actions" tab's latest build artifacts as `fir
 Install `west` command ([official document](https://docs.zephyrproject.org/latest/develop/west/install.html)) and GNU make. Execute below command.
 
 ```
-make init # warning!! It downloads few GB files...
-make build -j4 # uf2 shows up under build directory
+# 1. Initialize west workspace
+## Option1: download under ../
+west init -l . --mf config/west.yml
+## Option2: download under ./dependencies
+west init -l config --mf west-standalone.yml
+
+# 2. Download dependencies
+west update --narrow
+west zephyr-export
+
+# 3. Build
+west zmk-build -q
+## Build with debug
+west zmk-build -S zmk-usb-logging
 ```
 
-If build succeeds, the firmware shows up under `build` directory like `zmk_dya_dash_left.uf2` and `zmk_dya_dash_right_trackball.uf2`.
+If build succeeds, the firmware shows up under `../build/<artifact>/zephyr/zmk.uf2`.
 
 ## Trackball enable/disable with snippet
 
