@@ -48,16 +48,6 @@
     active-layers = <BIT(SCROLL_L)>;
 };
 
-// TODO: Remove after runtime input processor supports mapping
-&trackball_scroller {
-    layers = <SCROLL_L>;
-};
-
-// TODO: Remove after runtime input processor supports mapping
-&trackball_scroller_l {
-    layers = <SCROLL_L>;
-};
-
 &trackball_r {cpi = <600>; };
 &trackball_l {cpi = <600>; };
 

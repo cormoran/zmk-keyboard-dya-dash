@@ -138,22 +138,12 @@
 		compatible = "zmk,input-listener";
 		status = "disabled";
 		input-processors = <&mouse_runtime_input_processor &scroll_runtime_input_processor>;
-		trackball_scroller: scroller_0 {
-			// TODO: Remove after runtime input processor supports mapping
-			// layers = <9>;
-			input-processors = <&zip_xy_to_scroll_mapper>;
-		};
 	};
 	// Enabled by default to support trackball on peripheral side.
 	trackball_listener_l: trackball_listener_1 {
 		compatible = "zmk,input-listener";
 		device = <&peripheral_trackball>;
 		input-processors = <&mouse_runtime_input_processor_l &scroll_runtime_input_processor_l>;
-		trackball_scroller_l: scroller_1 {
-			// TODO: Remove after runtime input processor supports mapping
-			// layers = <9>;
-			input-processors = <&zip_xy_to_scroll_mapper>;
-		};
 	};
 	
 	split_inputs {
@@ -189,8 +179,10 @@
 		compatible = "zmk,input-processor-runtime";
 		processor-label = "lscroll";
 		type = <INPUT_EV_REL>;
-		x-codes = <INPUT_REL_HWHEEL>;
-		y-codes = <INPUT_REL_WHEEL>;
+		// Instead of consuming REL_WHEEL, process REL_X, REL_Y and convert to scroll events
+		x-codes = <INPUT_REL_X>;
+		y-codes = <INPUT_REL_Y>;
+		xy-to-scroll-enabled;
 		track-remainders;
 		
 		scale-divisor = <60>;
@@ -216,8 +208,15 @@
 &scroll_runtime_input_processor {
 	processor-label = "rscroll";
 	
+	// Instead of consuming REL_WHEEL, process REL_X, REL_Y and convert to scroll events
+	x-codes = <INPUT_REL_X>;
+	y-codes = <INPUT_REL_Y>;
+	xy-to-scroll-enabled;
+	
 	axis-snap-mode = <AXIS_SNAP_MODE_Y>;
 	axis-snap-threshold = <200>;
+	
+	xy-to-scroll-enabled;
 };
 
 // Use NFC pins as GPIOs
