@@ -12,6 +12,31 @@ manifest:
         file: app/west.yml
         path-prefix: external
       clone-depth: 1
+      revision: v0.3-branch+dya
+    - name: zephyr
+      revision: v3.5.0+zmk-fixes+nrf-half-duplex-uart
+      clone-depth: 1
+      import:
+        path-prefix: external
+        name-blocklist:
+          - ci-tools
+          - hal_altera
+          - hal_cypress
+          - hal_infineon
+          - hal_microchip
+          - hal_nxp
+          - hal_openisa
+          - hal_silabs
+          - hal_xtensa
+          - hal_st
+          - hal_ti
+          - loramac-node
+          - mcuboot
+          - mcumgr
+          - net-tools
+          - openthread
+          - edtt
+          - trusted-firmware-m
     - name: zmk-pmw3610-driver
       path: external/zmk-pmw3610-driver
       clone-depth: 1

@@ -1,0 +1,4 @@
+name: right-encoder-v3
+append:
+  EXTRA_DTC_OVERLAY_FILE: right-encoder.overlay
+  EXTRA_CONF_FILE: right-encoder.conf

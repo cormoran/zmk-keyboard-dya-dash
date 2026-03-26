@@ -3,6 +3,22 @@ WEST_ADDITIONAL_OPTS=""
 BUILD_DIR_SUFFIX=""
 ADDITIONAL_ARGS=""
 
+
+case "$1" in
+v2)
+    DYA_SHEILD=dya_dash_
+    SNIPPET_SUFFIX=""
+    ;;
+v3)
+    DYA_SHEILD=dya_dash_v3_
+    SNIPPET_SUFFIX="-v3"
+    ;;
+*)
+    echo "Usage: $0 {v2|v3} ..."
+    exit 1
+esac
+shift
+
 case "$1" in
 left)
     SPLIT=left
@@ -13,17 +29,39 @@ right)
     ;;
 left-ball)
     SPLIT=left
-    WEST_ADDITIONAL_OPTS="${WEST_ADDITIONAL_OPTS} -S left-trackball"
+    WEST_ADDITIONAL_OPTS="${WEST_ADDITIONAL_OPTS} -S left-trackball${SNIPPET_SUFFIX}"
     BUILD_DIR_SUFFIX="${BUILD_DIR_SUFFIX}_trackball"
     ;;
 right-ball)
     SPLIT=right
     WEST_ADDITIONAL_OPTS="${WEST_ADDITIONAL_OPTS} -S studio-rpc-usb-uart"
-    WEST_ADDITIONAL_OPTS="${WEST_ADDITIONAL_OPTS} -S right-trackball"
+    WEST_ADDITIONAL_OPTS="${WEST_ADDITIONAL_OPTS} -S right-trackball${SNIPPET_SUFFIX}"
     BUILD_DIR_SUFFIX="${BUILD_DIR_SUFFIX}_trackball"
     ;;
+left-switch)
+    SPLIT=left
+    WEST_ADDITIONAL_OPTS="${WEST_ADDITIONAL_OPTS} -S left-switch${SNIPPET_SUFFIX}"
+    BUILD_DIR_SUFFIX="${BUILD_DIR_SUFFIX}_switch"
+    ;;
+right-switch)
+    SPLIT=right
+    WEST_ADDITIONAL_OPTS="${WEST_ADDITIONAL_OPTS} -S studio-rpc-usb-uart"
+    WEST_ADDITIONAL_OPTS="${WEST_ADDITIONAL_OPTS} -S right-switch${SNIPPET_SUFFIX}"
+    BUILD_DIR_SUFFIX="${BUILD_DIR_SUFFIX}_switch"
+    ;;
+left-encoder)
+    SPLIT=left
+    WEST_ADDITIONAL_OPTS="${WEST_ADDITIONAL_OPTS} -S left-encoder${SNIPPET_SUFFIX}"
+    BUILD_DIR_SUFFIX="${BUILD_DIR_SUFFIX}_encoder"
+    ;;
+right-encoder)
+    SPLIT=right
+    WEST_ADDITIONAL_OPTS="${WEST_ADDITIONAL_OPTS} -S studio-rpc-usb-uart"
+    WEST_ADDITIONAL_OPTS="${WEST_ADDITIONAL_OPTS} -S right-encoder${SNIPPET_SUFFIX}"
+    BUILD_DIR_SUFFIX="${BUILD_DIR_SUFFIX}_encoder"
+    ;;
 *)
-    echo "Usage: $0 {left|right|left-ball|right-ball} <options>"
+    echo "Usage: $0 {left|right|left-ball|right-ball|left-switch|right-switch} <options>"
     echo " -d: Enable debug logging"
     echo " -r: Reset storage on start"
     exit 1
@@ -51,7 +89,7 @@ done
 
 REPO_ROOT=$(git rev-parse --show-superproject-working-tree --show-toplevel | head -1)
 REPO_ROOT=${REPO_ROOT:=$(pwd)}
-DYA_SHEILD=dya_dash_$SPLIT
+DYA_SHEILD=${DYA_SHEILD}${SPLIT}
 BUILD_DIR=$REPO_ROOT/build/${DYA_SHEILD}${BUILD_DIR_SUFFIX}
 ZMK_APP_DIR=$REPO_ROOT/external/zmk/app
 

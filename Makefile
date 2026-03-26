@@ -1,25 +1,27 @@
 .PHONY: init build-all clean build debug
 
 
-build-all: build build-reset
+build-all: build-all-v2 build-all-v3
 
-build: build-left build-right build-left-ball build-right-ball
+build-all-v2:
+	bash local_build.sh v2 left
+	bash local_build.sh v2 right
+	bash local_build.sh v2 left-ball
+	bash local_build.sh v2 right-ball
+	bash local_build.sh v2 left -r
+	bash local_build.sh v2 right -r
 
-build-left:
-	bash local_build.sh left
-build-right:
-	bash local_build.sh right
-build-left-ball:
-	bash local_build.sh left-ball
-build-right-ball:
-	bash local_build.sh right-ball
-
-build-reset: build-left-reset build-right-reset
-
-build-left-reset:
-	bash local_build.sh left -r
-build-right-reset:
-	bash local_build.sh right -r
+build-all-v3:
+	bash local_build.sh v3 left
+	bash local_build.sh v3 right
+	bash local_build.sh v3 left-ball
+	bash local_build.sh v3 right-ball
+	bash local_build.sh v3 left-switch
+	bash local_build.sh v3 right-switch
+	bash local_build.sh v3 left-encoder
+	bash local_build.sh v3 right-encoder
+	bash local_build.sh v3 left -r
+	bash local_build.sh v3 right -r
 
 init:
 	west init -l config

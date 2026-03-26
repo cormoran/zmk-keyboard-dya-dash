@@ -1,0 +1,27 @@
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <input/processors.dtsi>
+
+&right_thumb_encoder {
+	a-gpios = <&gpio0 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+	b-gpios = <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+	status = "okay";
+};
+
+&kscan0 {
+	direct {
+		kscan = <&kscan_direct>;
+		row-offset = <6>;
+		col-offset = <2>;
+	};
+};
+
+/ {
+	
+	kscan_direct: kscan_direct {
+		compatible = "zmk,kscan-gpio-direct";
+		input-gpios
+		= <&gpio0 29 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+		wakeup-source;
+	};
+};
+

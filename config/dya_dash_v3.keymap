@@ -93,25 +93,6 @@
         };
     };
 
-    combos {
-        compatible = "zmk,combos";
-
-        // Right side's setting button shares input pin with arrow keys.
-        // It works as a combo of two arrow keys.
-
-        setting_r1 {
-            timeout-ms = <10>;
-            key-positions = <47 50>;
-            bindings = <&kp C_VOL_DN>;
-        };
-
-        setting_r2 {
-            timeout-ms = <10>;
-            key-positions = <47 49>;
-            bindings = <&kp C_VOL_UP>;
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -145,7 +126,18 @@
             &kp LSHIFT                 &kp Z         &kp X     &kp C     &kp V         &kp B      &kp B         &kp N              &kp M     &kp COMMA  &kp DOT   &kp FSLH
             &mo CONFIG_L  &kp LWIN  &kp LALT  &kp SPACE &mo LEFT_L     &mo RIGHT_L   &kp SPACE          &kp RALT  &kp RWIN
             &out OUT_TOG  &out_bt_nxt                                                    &kp UP        &kp LEFT           &kp DOWN  &kp RIGHT
-            &mo TRACKBALL_L2           &mo SCROLL_L  &none     &none                                  &mo SCROLL_L  &mo TRACKBALL_L2    &none     &none
+            // TOUCH
+            &kp N1 &kp N2 &kp N3 &kp N4                                                &kp N1 &kp N2 &kp N3 &kp N4
+            // switch module
+            &kp A &kp B &kp C &kp D
+            // encoder module click
+            &kp I &kp J
+            >;
+            sensor-bindings = <
+                // pinky encoder
+                &inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_VOL_UP C_VOL_DN
+                // thumb encoder module
+                &inc_dec_kp E F &inc_dec_kp G H
             >;
         };
 
