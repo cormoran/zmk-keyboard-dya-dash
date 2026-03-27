@@ -12,8 +12,6 @@ build-all-v2:
 	bash local_build.sh v2 right -r
 
 build-all-v3:
-	bash local_build.sh v3 left
-	bash local_build.sh v3 right
 	bash local_build.sh v3 left-ball
 	bash local_build.sh v3 right-ball
 	bash local_build.sh v3 left-switch
