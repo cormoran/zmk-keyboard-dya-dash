@@ -100,17 +100,15 @@
 		// SW13, SW14, SW15, SW16, SW17, SW18,                         SW18, SW17, SW16, SW15, SW14, SW13,
 		// 24 25 26 27 28 29                                           30 31 32 33 34 35
 		RC(2, 4) RC(3, 0) RC(3, 1) RC(3, 2) RC(3, 4) RC(4, 0)          RC(4, 6) RC(3, 10) RC(3, 8) RC(3, 7) RC(3, 6) RC(2, 10)
-		// SW19, SW20, SW21, SW22, SW23                                SW23, SW22, SW21, SW20, // 21, 20 can be missing if trackball enabled
-		// 36 37 38 39 40                                              41 42 (43 44)
-		RC(4, 1) RC(4, 2) RC(4, 3) RC(5, 0) RC(5, 1)                   RC(5, 7) RC(5, 6) RC(4, 9) RC(4, 8)
-		// SW24 for bluetooth, SW25 for USB                            // 4 arrow keys left up down right
-		// 45 46                                                       (47) 48 (49 50)
-		RC(5, 3) RC(5, 2)                                              RC(5, 8) RC(4, 7) RC(5, 10) RC(5, 9)
+		// SW19, SW20, SW21, SW22, SW23                                SW23, SW22
+		// (36) (37 38) 39 40                                          41 42 (43 44) (45)  - Thumb switch module, optional encoder
+		RC(4, 1) RC(6, 0) RC(6, 1) RC(5, 0) RC(5, 1)                   RC(5, 7) RC(5, 6) RC(6, 6) RC(6, 7) RC(4, 7)
+		// SW24, SW25  (setting)
+		// 42 43                                                       44 45
+		RC(5, 3) RC(5, 2)                                              RC(5, 8) RC(5, 9)
 		// TOUCH1, TOUCH2, TOUCH3, TOUCH4                              // TOUCH1 (K) , TOUCH2 (L), TOUCH3 (O), TOUCH4 (sum finger)
 		// 51 52 53 54                                                 55 56 57 58
 		RC(2, 5) RC(1, 5) RC(3, 5) RC(4, 5)                            RC(1, 11) RC(2, 11) RC(3, 11) RC(4, 11)
-		// External module
-		RC(6, 0) RC(6, 1) RC(6, 6) RC(6, 7)
 		// Thumb Encoder module click
 		RC(6, 2) RC(6, 8)
 		>;
@@ -177,8 +175,8 @@
 	
 	left_encoder: encoder_left {
 		compatible = "alps,ec11";
-		b-gpios = <&gpio0 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-		a-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+		a-gpios = <&gpio0 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+		b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
 		steps = <24>;
 		status = "disabled";
 	};
