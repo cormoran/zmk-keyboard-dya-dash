@@ -143,7 +143,7 @@
             &kp LSHIFT                 &kp Z         &kp X     &kp C     &kp V         &kp B      &kp B         &kp N              &kp M     &kp COMMA  &kp DOT   &kp FSLH
             &mo CONFIG_L  &kp LWIN  &kp LALT  &kp SPACE &mo LEFT_L     &mo RIGHT_L   &kp SPACE          &kp RALT  &kp RWIN
             &out OUT_TOG  &out_bt_nxt                                                    &kp UP        &kp LEFT           &kp DOWN  &kp RIGHT
-            &mo TRACKBALL_L2           &mo SCROLL_L  &none     &none                                  &mo SCROLL_L  &mo TRACKBALL_L2    &none     &none
+            &none         &none  &none     &none                                  &mo SCROLL_L  &mo TRACKBALL_L2    &none     &none
             >;
         };
 
@@ -246,7 +246,7 @@
             &trans  &trans  &trans  &trans  &trans  &trans        &trans    &mkp MCLK         &mkp LCLK  &trans     &trans        &trans
             &trans  &trans  &trans  &trans  &mo SCROLL_L  &mkp MB4  &mkp MB5          &trans     &trans
             &trans  &trans                                        &trans    &trans            &trans     &trans
-            &trans  &trans  &trans  &trans                        &trans    &trans            &trans     &trans
+            &rip_hdpi  &rip_ldpi  &trans  &trans                        &trans    &trans            &trans     &trans
             >;
         };
 
@@ -258,7 +258,7 @@
             &trans  &trans  &trans  &trans  &trans  &trans        &trans    &mkp MCLK         &mkp LCLK  &trans     &trans        &trans
             &trans  &trans  &trans  &trans  &mo SCROLL_L  &mkp MB4  &mkp MB5          &trans     &trans
             &trans  &trans                                        &trans    &trans            &trans     &trans
-            &trans  &trans  &trans  &trans                        &trans    &trans            &trans     &trans
+            &rip_hdpi  &rip_ldpi  &trans  &trans                        &trans    &trans            &trans     &trans
             >;
         };
 

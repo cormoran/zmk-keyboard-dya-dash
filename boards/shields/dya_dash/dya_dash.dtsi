@@ -158,7 +158,7 @@
 	
 	mouse_runtime_input_processor_l: mouse_runtime_input_processor_l {
 		compatible = "zmk,input-processor-runtime";
-		processor-label = "left";
+		processor-label = "lmouse";
 		temp-layer-enabled;
 		type = <INPUT_EV_REL>;
 		x-codes = <INPUT_REL_X>;
@@ -200,13 +200,13 @@
 };
 
 &mouse_runtime_input_processor {
-	processor-label = "right";
+	processor-label = "mouse";
 	temp-layer-enabled;
 	// temp-layer = <8>;
 };
 
 &scroll_runtime_input_processor {
-	processor-label = "rscroll";
+	processor-label = "scroll";
 	
 	// Instead of consuming REL_WHEEL, process REL_X, REL_Y and convert to scroll events
 	x-codes = <INPUT_REL_X>;
