@@ -291,10 +291,6 @@
 	>;
 };
 
-&zip_temp_layer {
-	require-prior-idle-ms = <100>;
-};
-
 &vbatt {
 	io-channels = <&adc 0>;
 	power-gpios;// unset
