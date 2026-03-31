@@ -52,6 +52,34 @@
 &trackball_l {cpi = <600>; };
 
 / {
+    macros {
+        // Disconnect from all once for reliable connection to selected profile.
+        // ZMK automatically reconnects to current profile right after disconnection.
+        out_bt_nxt: out_bt_nxt {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <50>;
+            bindings = <&out OUT_BLE &bt BT_NXT &bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 2 &bt BT_DISC 3>;
+        };
+        // Change default layer for current profile to next layer
+        dfnxt: dfnxt {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&df DF_INC &animtrig ANM_TRG 2>;
+        };
+        ZMK_MACRO(nxt_win,
+            display-name = "Next Window";
+            bindings = <&macro_press &kp LWIN &kp LCTRL>
+                     , <&macro_tap &kp RIGHT_ARROW>
+                     , <&macro_release &kp LCTRL &kp LWIN>;
+        )
+        ZMK_MACRO(prv_win,
+            display-name = "Previous Window";
+            bindings = <&macro_press &kp LWIN &kp LCTRL>
+                     , <&macro_tap &kp LEFT_ARROW>
+                     , <&macro_release &kp LCTRL &kp LWIN>;
+        )
+    };
     behaviors {
         // ctrl+h as backspace
 
@@ -71,23 +99,6 @@
             bindings = <&kp J>, <&kp ENTER>;
 
             mods = <(MOD_LCTL)>;
-        };
-    };
-
-    macros {
-        // Disconnect from all once for reliable connection to selected profile.
-        // ZMK automatically reconnects to current profile right after disconnection.
-        out_bt_nxt: out_bt_nxt {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <50>;
-            bindings = <&out OUT_BLE &bt BT_NXT &bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 2 &bt BT_DISC 3 &bt BT_DISC 4>;
-        };
-        // Change default layer for current profile to next layer
-        dfnxt: dfnxt {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&df DF_INC &animtrig ANM_TRG 2>;
         };
     };
 
@@ -126,7 +137,7 @@
         // };
 
         default_layer {
-            display-name = "Base Layer";
+            display-name = "Base";
 
             // --------------------------------------------------------------------------------------------------------------------------------------------------
             // |   TAB   |    Q    |    W    |    E    |    R    |    T       |            |    Y        |    U    |    I     |    O    |    P    |    [    |
@@ -135,7 +146,7 @@
             //           |  CONFIG |   WIN   |   ALT   |  SPACE  | LEFT_LAYER |            | RIGHT_LAYER |  SPACE  |   ALT    |   WIN   |
             // --------------------------------------------------------------------------------------------------------------------------------------------------
             // | BLE     |  USB    |                                                       |  left   | up      | down    | right   |
-            // | touch1  | touch2  | touch3  | touch 4 |                                   | touch1  | touch2  | touch3  | touch 4 |
+            // | touch1  | touch2  | (touch3)  | (touch 4) |                                   | touch1  | touch2  | (touch3)  | (touch 4) |
 
             bindings = <
             &kp TAB                    &kp Q         &kp W     &kp E     &kp R         &kp T      &kp Y         &kp U              &kp I     &kp O      &kp P     &kp LBKT
@@ -148,7 +159,7 @@
         };
 
         windows_default_layer {
-            display-name = "Windows Default";
+            display-name = "Windows";
             bindings = <
             &trans  &trans  &trans    &trans          &trans  &trans          &trans          &trans  &trans  &trans  &trans  &trans
             &trans  &trans  &trans    &trans          &trans  &trans          &trans          &trans  &trans  &trans  &trans  &trans
@@ -160,7 +171,7 @@
         };
 
         mac_default_layer {
-            display-name = "Mac Default";
+            display-name = "Mac";
             bindings = <
             &trans  &trans  &trans    &trans          &trans  &trans          &trans          &trans  &trans  &trans  &trans  &trans
             &trans  &trans  &trans    &trans          &trans  &trans          &trans          &trans  &trans  &trans  &trans  &trans
@@ -172,7 +183,7 @@
         };
 
         ios_default_layer {
-            display-name = "iOS Default";
+            display-name = "iOS";
             bindings = <
             &trans  &trans  &trans    &trans          &trans  &trans          &trans          &trans  &trans  &trans  &trans  &trans
             &trans  &trans  &trans    &trans          &trans  &trans          &trans          &trans  &trans  &trans  &trans  &trans
@@ -184,7 +195,7 @@
         };
 
         linux_default_layer {
-            display-name = "Linux Default";
+            display-name = "Linux";
             bindings = <
             &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
             &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
@@ -196,13 +207,7 @@
         };
 
         left_layer {
-            display-name = "Left SPACE";
-
-            // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-            // |  ESC    |  !  |  @  |  #       |  $  |  %       |                           |  ^  |  &      |  *      |  (  |  )  |  ]  |
-            // |         |  1  |  2  |  3       |  4  |  5       |                           |  6  |  7      |  8      |  9  |  0  |  \  |
-            // |         |     |     |          |     |          |                           |  `  |  -      |  =      |  [  |  ]  |SHIFT|
-            //           |     |     |          |     |          |                           |     |         |         |     |
+            display-name = "Left";
 
             bindings = <
             &kp ESC  &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT     &kp CARET  &kp AMPS   &kp ASTRK  &kp LPAR  &kp RPAR  &kp RBKT
@@ -215,7 +220,7 @@
         };
 
         right_layer {
-            display-name = "Right SPACE";
+            display-name = "Right";
             bindings = <
             &trans  &trans  &trans  &trans  &trans  &trans  &trans        &kp PG_UP     &kp UP        &kp PG_DN  &trans  &kp C_AL_LOCK
             &trans  &trans  &trans  &trans  &trans  &trans  &trans        &kp LEFT      &kp DOWN      &kp RIGHT  &trans  &trans
@@ -227,7 +232,7 @@
         };
 
         config_layer {
-            display-name = "Config Layer";
+            display-name = "Config";
             bindings = <
             &bootloader     &none       &none           &none  &none  &animtrig ANM_TRG 0 &none   &none   &none  &none  &none  &bootloader
             &sys_reset      &none       &none           &none  &none  &animtrig ANM_TRG 1 &none  &none    &none  &none  &none  &sys_reset
@@ -239,19 +244,19 @@
         };
 
         trackball_layer {
-            display-name = "Trackball Automouse";
+            display-name = "Automouse";
             bindings = <
             &trans  &trans  &trans  &trans  &trans  &trans        &trans    &trans            &trans     &trans     &trans        &trans
-            &trans  &trans  &trans  &trans  &trans  &trans        &trans    &mkp LCLK         &mkp RCLK  &mkp RCLK  &mo SCROLL_L  &kp RALT
-            &trans  &trans  &trans  &trans  &trans  &trans        &trans    &mkp MCLK         &mkp LCLK  &trans     &trans        &trans
-            &trans  &trans  &trans  &trans  &mo SCROLL_L  &mkp MB4  &mkp MB5          &trans     &trans
+            &trans  &trans  &trans  &trans  &trans  &trans        &trans    &mkp LCLK         &mkp RCLK  &mkp MCLK  &mo SCROLL_L  &kp RALT
+            &trans  &trans  &trans  &trans  &trans  &trans        &trans    &mkp MB4         &mkp LCLK  &trans     &trans        &trans
+            &trans  &trans  &trans  &trans  &mo SCROLL_L  &trans  &trans          &trans     &trans
             &trans  &trans                                        &trans    &trans            &trans     &trans
-            &rip_hdpi  &rip_ldpi  &trans  &trans                        &trans    &trans            &trans     &trans
+            &rip_hdpi  &rip_ldpi  &trans  &trans                        &trans    &rip_amka            &trans     &trans
             >;
         };
 
         trackball_layer2 {
-            display-name = "Trackball Manual";
+            display-name = "Mouse";
             bindings = <
             &trans  &trans  &trans  &trans  &trans  &trans        &trans    &trans            &trans     &trans     &trans        &trans
             &trans  &trans  &trans  &trans  &trans  &trans        &trans    &mkp LCLK         &mkp RCLK  &mkp RCLK  &mo SCROLL_L  &kp RALT
@@ -263,7 +268,19 @@
         };
 
         scroll_layer {
-            display-name = "Trackball Scroll";
+            display-name = "Scroll";
+            bindings = <
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans                                  &trans  &trans  &trans  &trans
+            &rip_hscr  &rip_lscr &trans  &trans                  &trans  &trans  &trans  &trans
+            >;
+        };
+
+        extra1 {
+            display-name = "Ext1";
             bindings = <
             &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
             &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
@@ -274,10 +291,28 @@
             >;
         };
 
-        extra1 { status = "reserved"; };
+        extra2 {
+            display-name = "Ext2";
+            bindings = <
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans                                  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans
+            >;
+        };
 
-        extra2 { status = "reserved"; };
-
-        extra3 { status = "reserved"; };
+        extra3 {
+            display-name = "Ext3";
+            bindings = <
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans                                  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans
+            >;
+        };
     };
 };

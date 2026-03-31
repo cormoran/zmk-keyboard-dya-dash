@@ -193,7 +193,7 @@
 		temp-layer-keep-keycodes = <LEFT_CONTROL LEFT_SHIFT LEFT_ALT LEFT_GUI RIGHT_CONTROL RIGHT_SHIFT RIGHT_ALT RIGHT_GUI>;
 		
 		axis-snap-mode = <AXIS_SNAP_MODE_Y>;
-		axis-snap-threshold = <200>;
+		axis-snap-threshold = <600>;
 		
 		#input-processor-cells = <0>;
 	};
