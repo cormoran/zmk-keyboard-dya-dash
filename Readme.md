@@ -23,20 +23,39 @@ The firmware will be available in "Actions" tab's latest build artifacts as `fir
 
 ## Local development in this repository
 
-Install `west` command ([official document](https://docs.zephyrproject.org/latest/develop/west/install.html)) and GNU make. Execute below command.
+Install `west` command ([official document](https://docs.zephyrproject.org/latest/develop/west/install.html)). Execute below command.
 
 ```
-make init # warning!! It downloads few GB files...
-make build -j4 # uf2 shows up under build directory
+# 1. Initialize west workspace
+## Option1: download under ../ if you want to share dependency with other zmk-config
+west init -l . --mf config/west.yml
+## Option2: download under ./dependencies if you don't want to share dependency
+west init -l config --mf west-standalone.yml
+
+# 2. Download dependencies
+west update --narrow
+west zephyr-export
+
+# 3. Build
+west zmk-build -q
+## Build with debug
+west zmk-build -S zmk-usb-logging
+## Build specific firmware # with debug mode and flash
+west zmk-build -a right_trackball # -S zmk-usb-logging --flash
 ```
 
-If build succeeds, the firmware shows up under `build` directory like `zmk_dya_dash_left.uf2` and `zmk_dya_dash_right_trackball.uf2`.
+If build succeeds, the firmware shows up under `../build/<artifact>/zephyr/zmk.uf2`.
 
 ## Trackball enable/disable with snippet
 
 Trackball setting is enabled by specifying snippet `left-trackball` or `right-trackball`. (see `local_build.sh`.).
+
 If neither snippet is specified, trackball feature is disabled.
 
 ## Default keymap
+
+Note that keymap for right side's setting buttons are configured as combo of arrow keys.
+
+Bottom 4 keys are hidden touch sensor pad in circuit.
 
 ![](keymap-drawer/dya_dash.svg)

@@ -2,13 +2,12 @@
 
 #include "dya_dash.dtsi"
 
-
 // The matrix transform for this board is 6 columns over because the left half is 5 columns wide according to the matrix.
 &default_transform {
-    col-offset = <6>;
+	col-offset = <6>;
 };
 
 &animation_layer_status {
-    // show layer 4,5,6,7 in right side
-    layer-offset = <4>;
+	// show layer 4,5,6,7 in right side
+	layer-offset = <4>;
 };

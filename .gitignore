@@ -1,3 +1,4 @@
 external
 .west
 zmk
+.vscode

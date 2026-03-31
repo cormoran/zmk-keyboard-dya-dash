@@ -1,0 +1,26 @@
+manifest:
+  version: 1.2
+  defaults:
+    remote: cormoran
+    revision: main
+  remotes:
+    - name: cormoran
+      url-base: https://github.com/cormoran
+  projects:
+    - name: zmk-west-commands
+      import: true
+    - name: zmk
+      import:
+        file: app/west.yml
+      clone-depth: 1
+      revision: v0.3-branch+dya
+    - name: zmk-pmw3610-driver
+    - name: zmk-feature-default-layer
+    - name: zmk-driver-animation
+    - name: zmk-driver-ext-power-transient
+    - name: zmk-module-ble-management
+    - name: zmk-module-battery-history
+    - name: zmk-module-runtime-input-processor
+    - name: zmk-module-settings-rpc
+  self:
+    path: config
