@@ -1,0 +1,4 @@
+name: right-switch-v3
+append:
+  EXTRA_DTC_OVERLAY_FILE: right-switch.overlay
+  EXTRA_CONF_FILE: right-switch.conf

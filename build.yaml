@@ -1,33 +1,82 @@
 include:
-  - artifact: right_trackball
+# V1 & V2
+  - artifact: v2_right_trackball
     board: seeeduino_xiao_ble
     shield: dya_dash_right
     snippets:
       - studio-rpc-usb-uart
       - right-trackball
 
-  - artifact: right
+  - artifact: v2_right
     board: seeeduino_xiao_ble
     shield: dya_dash_right
     snippets:
       - studio-rpc-usb-uart
 
-  - artifact: left_trackball
+  - artifact: v2_left_trackball
     board: seeeduino_xiao_ble
     shield: dya_dash_left
     snippets:
       - left-trackball
 
-  - artifact: left
+  - artifact: v2_left
     board: seeeduino_xiao_ble
     shield: dya_dash_left
 
-  - artifact: right_reset
+  - artifact: v2_right_reset
     board: seeeduino_xiao_ble
     shield: dya_dash_right
     cmake-args: -DCONFIG_ZMK_SETTINGS_RESET_ON_START=y
 
-  - artifact: left_reset
+  - artifact: v2_left_reset
     board: seeeduino_xiao_ble
     shield: dya_dash_left
+    cmake-args: -DCONFIG_ZMK_SETTINGS_RESET_ON_START=y
+
+# V3
+  - artifact: v3_right_trackball
+    board: seeeduino_xiao_ble
+    shield: dya_dash_v3_right
+    snippets:
+      - studio-rpc-usb-uart
+      - right-trackball-v3
+  - artifact: v3_right_switch
+    board: seeeduino_xiao_ble
+    shield: dya_dash_v3_right
+    snippets:
+      - studio-rpc-usb-uart
+      - right-switch-v3
+  - artifact: v3_right_encoder
+    board: seeeduino_xiao_ble
+    shield: dya_dash_v3_right
+    snippets:
+      - studio-rpc-usb-uart
+      - right-encoder-v3
+  - artifact: v3_right_reset
+    board: seeeduino_xiao_ble
+    shield: dya_dash_v3_right
+    snippets:
+      - studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_SETTINGS_RESET_ON_START=y
+  - artifact: v3_left_trackball
+    board: seeeduino_xiao_ble
+    shield: dya_dash_v3_left
+    snippets:
+      - studio-rpc-usb-uart
+      - left-trackball-v3
+  - artifact: v3_left_switch
+    board: seeeduino_xiao_ble
+    shield: dya_dash_v3_left
+    snippets:
+      - studio-rpc-usb-uart
+      - left-switch-v3
+  - artifact: v3_left_encoder
+    board: seeeduino_xiao_ble
+    shield: dya_dash_v3_left
+    snippets:
+      - studio-rpc-usb-uart
+      - left-encoder-v3
+  - artifact: v3_left_reset
+    board: seeeduino_xiao_ble
+    shield: dya_dash_v3_left
     cmake-args: -DCONFIG_ZMK_SETTINGS_RESET_ON_START=y

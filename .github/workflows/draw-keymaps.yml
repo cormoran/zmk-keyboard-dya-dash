@@ -19,7 +19,8 @@ jobs:
         run: pipx install "keymap-drawer"
       - name: Draw keymap
         run: |
-          make draw-keymap
+          make draw-keymap-v2
+          make draw-keymap-v3
           git config user.name  "actions-user"
           git config user.email "action@github.com"
           git add .

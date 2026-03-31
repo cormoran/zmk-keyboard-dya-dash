@@ -6,13 +6,12 @@
 #include <dt-bindings/zmk_driver_animation/animation_trigger.h>
 #include <zmk_driver_animation/animation.dtsi>
 #include <zmk_driver_animation/animation_layer_status.dtsi>
-#include <behaviors/battery_history_request.dtsi>
 
 #include <input/processors.dtsi>
 #include <input/processors/runtime-input-processor.dtsi>
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <dt-bindings/zmk/runtime_input_processor.h>
-#include "dya_dash-layouts.dtsi"
+#include "dya_dash_v3-layouts.dtsi"
 
 / {
 	chosen {
@@ -103,34 +102,47 @@
 		// SW13, SW14, SW15, SW16, SW17, SW18,                         SW18, SW17, SW16, SW15, SW14, SW13,
 		// 24 25 26 27 28 29                                           30 31 32 33 34 35
 		RC(2, 4) RC(3, 0) RC(3, 1) RC(3, 2) RC(3, 4) RC(4, 0)          RC(4, 6) RC(3, 10) RC(3, 8) RC(3, 7) RC(3, 6) RC(2, 10)
-		// SW19, SW20, SW21, SW22, SW23                                SW23, SW22, SW21, SW20, // 21, 20 can be missing if trackball enabled
-		// 36 37 38 39 40                                              41 42 (43 44)
-		RC(4, 1) RC(4, 2) RC(4, 3) RC(5, 0) RC(5, 1)                   RC(5, 7) RC(5, 6) RC(4, 9) RC(4, 8)
-		// SW24 for bluetooth, SW25 for USB                            // 4 arrow keys left up down right
-		// 45 46                                                       47 48 49 50
-		RC(5, 3) RC(5, 2)                                              RC(5, 8) RC(4, 7) RC(5, 10) RC(5, 9)
+		// SW19, SW20, SW21, SW22, SW23                                SW23, SW22
+		// (36) (37 38) 39 40                                          41 42 (43 44) (45)  - Thumb switch module, optional encoder
+		RC(4, 1) RC(6, 0) RC(6, 1) RC(5, 0) RC(5, 1)                   RC(5, 7) RC(5, 6) RC(6, 6) RC(6, 7) RC(4, 7)
+		// SW24, SW25  (setting)
+		// 42 43                                                       44 45
+		RC(5, 3) RC(5, 2)                                              RC(5, 8) RC(5, 9)
 		// TOUCH1, TOUCH2, TOUCH3, TOUCH4                              // TOUCH1 (K) , TOUCH2 (L), TOUCH3 (O), TOUCH4 (sum finger)
 		// 51 52 53 54                                                 55 56 57 58
 		RC(2, 5) RC(1, 5) RC(3, 5) RC(4, 5)                            RC(1, 11) RC(2, 11) RC(3, 11) RC(4, 11)
+		// Thumb Encoder module click
+		RC(6, 2) RC(6, 8)
 		>;
 	};
 	
-	kscan0: kscan_0 {
+	kscan0: kscan_composite {
+		compatible = "zmk,kscan-composite";
+		rows = <7>;// 6 + 1
+		columns = <12>;
+		
+		matrix {
+			kscan = <&kscan_matrix>;
+		};
+		// Direct GPIO is added by snippet
+	};
+	
+	kscan_matrix: kscan_matrix {
 		compatible = "zmk,kscan-gpio-charlieplex";
-		gpios
-		= <&xiao_d 2 (GPIO_ACTIVE_HIGH)>
-		, <&xiao_d 3 (GPIO_ACTIVE_HIGH)>
-		, <&xiao_d 4 (GPIO_ACTIVE_HIGH)>
-		, <&xiao_d 5 (GPIO_ACTIVE_HIGH)>
-		, <&xiao_d 6 (GPIO_ACTIVE_HIGH)>
-		, <&xiao_d 7 (GPIO_ACTIVE_HIGH)>
+		gpios = <&xiao_d 9 (GPIO_ACTIVE_HIGH)>
+		, <&gpio1 5  (GPIO_ACTIVE_HIGH)>
+		, <&gpio1 7  (GPIO_ACTIVE_HIGH)>
+		, <&xiao_d 10 (GPIO_ACTIVE_HIGH)>
+		, <&gpio1 1  (GPIO_ACTIVE_HIGH)>
+		, <&xiao_d 2 (GPIO_ACTIVE_HIGH)>
 		;
 		wakeup-source;
-		interrupt-gpios = <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+		interrupt-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
 	};
+	
 	led_power:led_power {
 		compatible = "zmk,ext-power-transient";
-		control-gpios = <&gpio0 9 (GPIO_ACTIVE_LOW)>;// NFC1
+		control-gpios = <&gpio0 19 (GPIO_ACTIVE_LOW)>;
 	};
 	
 	// Disabled default. Enabled by right-trackball snippet.
@@ -193,6 +205,43 @@
 		
 		#input-processor-cells = <0>;
 	};
+	
+	left_encoder: encoder_left {
+		compatible = "alps,ec11";
+		a-gpios = <&gpio0 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+		b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+		steps = <24>;
+		status = "disabled";
+	};
+	right_encoder: right_encoder {
+		compatible = "alps,ec11";
+		a-gpios = <&gpio0 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+		b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+		steps = <24>;
+		status = "disabled";
+	};
+	left_thumb_encoder: left_thumb_encoder {
+		compatible = "alps,ec11";
+		status = "disabled";
+		steps = <24>;
+	};
+	right_thumb_encoder: right_thumb_encoder {
+		compatible = "alps,ec11";
+		status = "disabled";
+		steps = <24>;
+	};
+	
+	sensors: sensors {
+		compatible = "zmk,keymap-sensors";
+		sensors = <&left_encoder &right_encoder &left_thumb_encoder &right_thumb_encoder>;
+		triggers-per-rotation = <20>;
+	};
+	
+	wired_split {
+		compatible = "zmk,wired-split";
+		device = <&uart0>;
+		half-duplex;
+	};
 };
 
 &mouse_runtime_input_processor {
@@ -219,19 +268,19 @@
 };
 
 //
-// pinctrl for LED strip (SK6812-MINI-E)
+// pinctrl for LED strip (WS2812 2020)
 //
 
 &pinctrl {
 	spi3_default: spi3_default {
 		group1 {
-			psels = <NRF_PSEL(SPIM_MOSI, 0, 10)>;// NFC2
+			psels = <NRF_PSEL(SPIM_MOSI, 0, 3)>;// D1
 		};
 	};
 	
 	spi3_sleep: spi3_sleep {
 		group1 {
-			psels = <NRF_PSEL(SPIM_MOSI, 0, 10)>;
+			psels = <NRF_PSEL(SPIM_MOSI, 0, 3)>;
 			low-power-enable;
 		};
 	};
@@ -302,5 +351,43 @@
 	trackball_l: trackball_l@1 {
 		status = "disabled";
 		reg = <0>;
+	};
+};
+
+&uart0 {
+	compatible = "nordic,nrf-uarte";
+	current-speed = <19200>;
+	status = "okay";
+	pinctrl-0 = <&uart0_rx>;
+	pinctrl-1 = <&uart0_sleep>;
+	pinctrl-2 = <&uart0_tx>;
+	pinctrl-names = "rx", "sleep", "tx";
+	half-duplex;
+};
+
+&pinctrl {
+	uart0_rx: uart0_rx {
+		group1 {
+			psels = <NRF_PSEL(UART_RX, 0, 15)>;
+			bias-pull-up;
+		};
+		group2 {
+			psels = <NRF_PSEL_DISCONNECTED(UART_TX)>;
+		};
+	};
+	uart0_sleep: uart0_sleep {
+		group1 {
+			psels = <NRF_PSEL(UART_RX, 0, 15)>, <NRF_PSEL_DISCONNECTED(UART_TX)>;
+			low-power-enable;
+		};
+	};
+	uart0_tx: uart0_tx {
+		group1 {
+			psels = <NRF_PSEL(UART_TX, 0, 15)>;
+			bias-pull-up;
+		};
+		group2 {
+			psels = <NRF_PSEL_DISCONNECTED(UART_RX)>;
+		};
 	};
 };

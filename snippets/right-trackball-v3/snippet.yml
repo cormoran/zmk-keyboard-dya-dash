@@ -1,0 +1,4 @@
+name: right-trackball-v3
+append:
+  EXTRA_DTC_OVERLAY_FILE: right-trackball.overlay
+  EXTRA_CONF_FILE: right-trackball.conf

@@ -33,10 +33,12 @@
 
 
 &mouse_runtime_input_processor {
+    temp-layer-enabled;
     temp-layer = <TRACKBALL_L>;
 };
 
 &mouse_runtime_input_processor_l {
+    temp-layer-enabled;
     temp-layer = <TRACKBALL_L>;
 };
 
