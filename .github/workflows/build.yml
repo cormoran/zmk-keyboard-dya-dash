@@ -33,11 +33,9 @@ jobs:
       - name: Init
         run: |
           git config --global --add safe.directory ${{ github.workspace }}
-          west init -l config --mf west-standalone.yml
-          west update --narrow
-          west zephyr-export
+          make init-standalone
       - name: Build
-        run: west zmk-build -d ./build -q
+        run: make build-all
       - name: Copy artifacts
         shell: sh -x {0}
         run: |

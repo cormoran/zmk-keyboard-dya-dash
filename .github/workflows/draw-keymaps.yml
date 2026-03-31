@@ -9,12 +9,19 @@ on:
 
 jobs:
   draw:
-    uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@cd716e07453ad3b8fc10f905d3a0eebc61dd9450
+    runs-on: ubuntu-latest
     permissions:
       contents: write # allow workflow to commit to the repo
-    with:
-      keymap_patterns: "config/*.keymap" # path to the keymaps to parse
-      config_path: "keymap_drawer.config.yaml" # config file, ignored if not exists
-      output_folder: "keymap-drawer" # path to save produced SVG and keymap YAML files
-      parse_args: "" # map of extra args to pass to `keymap parse`, e.g. "corne:'-l Def Lwr Rse' cradio:''"
-      draw_args: "-j config/dya_dash.json --keys-only"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install keymap-drawer
+        run: pipx install "keymap-drawer"
+      - name: Draw keymap
+        run: |
+          make draw-keymap
+          git config user.name  "actions-user"
+          git config user.email "action@github.com"
+          git add .
+          git commit -m "Update keymap" || echo "No change to commit"
+          git push
