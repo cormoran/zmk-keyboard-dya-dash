@@ -10,13 +10,8 @@ init-workspace:
 	west update --narrow
 	west zephyr-export
 
-build-all: build-v2 build-v3
-
-build-v2:
-	west zmk-build -d ./build -q -as v2
-
-build-v3:
-	west zmk-build -d ./build -q -as v3
+build-all:
+	west zmk-build -d ./build -q
 
 debug-all:
 	west zmk-build -S zmk-usb-logging
