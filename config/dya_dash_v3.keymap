@@ -56,19 +56,56 @@
 
 / {
     macros {
-        // Disconnect from all once for reliable connection to selected profile.
+        btsel: bt_sel {
+            compatible = "zmk,behavior-macro-one-param";
+            display-name = "&bt BT_SEL for macro";
+            #binding-cells = <1>;
+            bindings = <&macro_param_1to2>, <&bt BT_SEL MACRO_PLACEHOLDER>;
+        };
+        btclr: bt_clr {
+            compatible = "zmk,behavior-macro-one-param";
+            display-name = "Unpair given BT profile";
+            #binding-cells = <1>;
+            bindings = <&macro_param_1to2>, <&bt BT_SEL MACRO_PLACEHOLDER>, <&bt BT_CLR>;
+        };
+        // Execute given BT command and disconnect from all once.
         // ZMK automatically reconnects to current profile right after disconnection.
-        out_bt_nxt: out_bt_nxt {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
+        // It improves connection stability.
+        // param is ignored. It's required for hold-tap
+        btnxt: btnxt {
+            compatible = "zmk,behavior-macro-one-param";
+            display-name = "Next BT profile with disconnect";
+            #binding-cells = <1>;
             wait-ms = <50>;
-            bindings = <&out OUT_BLE &bt BT_NXT &bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 2 &bt BT_DISC 3>;
+            bindings = <&bt BT_NXT>, <&bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 2 &bt BT_DISC 3>;
+        };
+        // param is ignored. It's required for hold-tap
+        btprv: btprv {
+            compatible = "zmk,behavior-macro-one-param";
+            display-name = "Previous BT profile with disconnect";
+            #binding-cells = <1>;
+            wait-ms = <50>;
+            bindings = <&bt BT_PRV>, <&bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 2 &bt BT_DISC 3>;
+        };
+        // param is ignored. It's required for hold-tap
+        btclr_cur: bt_clr_cur {
+            compatible = "zmk,behavior-macro-one-param";
+            display-name = "Unpair current BT profile";
+            #binding-cells = <1>;
+            bindings = <&bt BT_CLR>;
         };
         // Change default layer for current profile to next layer
         dfnxt: dfnxt {
             compatible = "zmk,behavior-macro";
+            display-name = "Change default layer to next";
             #binding-cells = <0>;
             bindings = <&df DF_INC &animtrig ANM_TRG 2>;
+        };
+        dfprv: dfprv {
+            compatible = "zmk,behavior-macro";
+            display-name = "Change default layer to prev";
+            #binding-cells = <0>;
+            bindings = <&df DEFAULT_LAYER_CMD_NEXT 3 &animtrig ANM_TRG 2>; // TODO: 3 is number of default layer - 1
         };
         ZMK_MACRO(nxt_win,
             display-name = "Next Window";
@@ -96,13 +133,30 @@
         };
 
         // ctrl+j as enter
-
         jenter: j_or_ctrl_enter {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
             bindings = <&kp J>, <&kp ENTER>;
 
             mods = <(MOD_LCTL)>;
+        };
+
+        btnxt_clr: btnxt_clr {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "BT_NXT on tap and BT_CLR on hold>5s";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <5000>;
+            bindings = <&btclr_cur>, <&btnxt>;
+        };
+
+        btprv_clr: btprv_clr {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "BT_PRV on tap and BT_CLR on hold>5s";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <5000>;
+            bindings = <&btclr_cur>, <&btprv>;
         };
 
         // Rotary encoder
@@ -137,7 +191,21 @@
 		};
     };
 
-
+    combos {
+        compatible = "zmk,combos";
+        // Toggle output when clicking left setting buttons at the same time
+        setting_left {
+            timeout-ms = <50>;
+            key-positions = <46 47>;
+            bindings = <&out OUT_TOG>;
+        };
+        // Mute when clicking right setting buttons at the same time
+        setting_right {
+            timeout-ms = <50>;
+            key-positions = <48 49>;
+            bindings = <&kp C_MUTE>;
+        };
+    };
 
     keymap {
         compatible = "zmk,keymap";
@@ -159,10 +227,10 @@
             &kp TAB                    &kp Q         &kp W     &kp E     &kp R         &kp T      &kp Y         &kp U              &kp I     &kp O      &kp P     &kp LBKT
             &kp LCTRL                  &kp A         &kp S     &kp D     &kp F         &kp G      &hbackspace   &jenter            &kp K     &kp L      &kp SEMI  &kp SQT
             &kp LSHIFT                 &kp Z         &kp X     &kp C     &kp V         &kp B      &kp B         &kp N              &kp M     &kp COMMA  &kp DOT   &kp FSLH
-            &mo CONFIG_L  &kp LWIN  &kp LALT  &kp SPACE &mo LEFT_L     &mo RIGHT_L   &kp SPACE          &kp RALT  &kp RWIN &mo CONFIG_L
-            &out OUT_TOG  &out_bt_nxt                                                    &kp C_VOL_DN &kp C_VOL_UP
-            // TOUCH (s, d, ctrl, c)                                                (k, l, enter, m)
-            &none &none &none &none                                                &none &none &mo SCROLL_L &none
+            &mo CONFIG_L  &kp LWIN  &kp LALT  &kp SPACE &mo LEFT_L                                &mo RIGHT_L   &kp SPACE          &kp RALT  &kp RWIN &mo CONFIG_L
+            &btprv_clr 0 0 &btnxt_clr 0 0                                                         &kp C_VOL_DN &kp C_VOL_UP
+            // TOUCH (s, d, ctrl, c)                                                              (k, l, enter, m)
+            &none &none &none &none                                                               &none &none &mo SCROLL_L &none
             // encoder module click
             &mo SCROLL_L &mo SCROLL_L
             >;
@@ -275,7 +343,7 @@
             &studio_unlock  &none       &none           &none  &none  &animtrig ANM_TRG 2 &none  &none    &none  &none  &none  &none
             &trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
 
-            &dfnxt          &bt BT_CLR                    &none  &none
+            &dfprv &dfnxt                    &none  &none
             &none  &none  &none  &none                    &none  &none  &none  &none
             &none  &none
             >;
@@ -289,7 +357,7 @@
             &trans  &trans  &trans  &trans  &trans  &trans    &trans  &mkp MCLK         &mkp LCLK  &mkp MB4  &mkp MB5  &trans
             &trans  &trans  &trans  &trans  &mo SCROLL_L                    &trans  &trans  &trans  &trans  &trans
             &trans  &trans                                    &trans  &trans
-            &trans  &trans  &trans  &trans                  &mo SCROLL_L  &trans  &mo SCROLL_L  &trans
+            &rip_hdpi  &rip_ldpi  &trans  &trans                  &mo SCROLL_L  &trans  &mo SCROLL_L  &trans
             &trans  &trans
             >;
         };
@@ -302,7 +370,7 @@
             &trans  &trans  &trans  &trans  &trans  &trans    &trans  &mkp MCLK         &mkp LCLK  &mkp MB4  &mkp MB5  &trans
             &trans  &trans  &trans  &trans  &mo SCROLL_L                    &trans  &trans  &trans  &trans  &trans
             &trans  &trans                                    &trans  &trans
-            &trans  &trans  &trans  &trans                  &mo SCROLL_L  &trans  &mo SCROLL_L  &trans
+            &rip_hdpi  &rip_ldpi  &trans  &trans                  &mo SCROLL_L  &trans  &mo SCROLL_L  &trans
             &trans  &trans
             >;
         };
