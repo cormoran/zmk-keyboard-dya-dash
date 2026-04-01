@@ -127,6 +127,7 @@
 			kscan = <&kscan_matrix>;
 		};
 		// Direct GPIO is added by snippet
+		wakeup-source;
 	};
 	
 	kscan_matrix: kscan_matrix {
