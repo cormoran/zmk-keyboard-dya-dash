@@ -47,8 +47,8 @@ layers:
   - RALT
   - RWIN
   - Config
-  - OUT TOG
-  - '&out_bt_nxt'
+  - {t: '&btprv', h: '&btclr_cur'}
+  - {t: '&btnxt', h: '&btclr_cur'}
   - VOL DN
   - VOL UP
   - ''
@@ -480,8 +480,8 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
+  - '&dfprv'
   - '&dfnxt'
-  - BT CLR
   - ''
   - ''
   - ''
@@ -545,8 +545,8 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - '&rip_hdpi'
+  - '&rip_ldpi'
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - Scroll
@@ -606,8 +606,8 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - '&rip_hdpi'
+  - '&rip_ldpi'
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - Scroll
@@ -860,3 +860,8 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
+combos:
+- p: [46, 47]
+  k: OUT TOG
+- p: [48, 49]
+  k: MUTE
