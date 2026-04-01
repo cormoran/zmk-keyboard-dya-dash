@@ -1,0 +1,4 @@
+name: left-switch-v3
+append:
+  EXTRA_DTC_OVERLAY_FILE: left-switch.overlay
+  EXTRA_CONF_FILE: left-switch.conf

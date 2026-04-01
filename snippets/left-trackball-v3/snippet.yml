@@ -1,0 +1,4 @@
+name: left-trackball-v3
+append:
+  EXTRA_DTC_OVERLAY_FILE: left-trackball.overlay
+  EXTRA_CONF_FILE: left-trackball.conf
