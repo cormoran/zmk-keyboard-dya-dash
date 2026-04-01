@@ -25,3 +25,8 @@
 	};
 };
 
+// TODO: multiple encoders somehow does not work
+//       disable pinky encoder as workaround
+&left_encoder {
+	status = "disabled";
+};
